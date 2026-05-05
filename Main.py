@@ -19,11 +19,3 @@ root.mainloop()
 
 
 
-def umrechnen(Von, betrag, Zu):
-    basevon =     
-    basezu = 
-    
-    inCHF = betrag / basevon
-    ergebniss = inCHF * basezu
-    
-    return ergebniss

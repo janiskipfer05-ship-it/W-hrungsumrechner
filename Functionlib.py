@@ -6,3 +6,11 @@ wechselkurse = {
     "COP": 4726.54
 }
 
+def umrechnen(Von, betrag, Zu):
+    basevon =     
+    basezu = 
+    
+    inCHF = betrag / basevon
+    ergebniss = inCHF * basezu
+    
+    return ergebniss
