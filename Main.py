@@ -26,6 +26,12 @@ label.pack()
 auswahl1 = tk.StringVar()
 auswahl1.set("USD")  #Strtwährung festlegen
 
+def update_kurs(*args):
+    kurs = wechselkurse[auswahl1.get()]
+    label.config(text=f"Kurs: {kurs}")
+
+auswahl1.trace_add("write", update_kurs)
+
 dropdown = tk.OptionMenu(root, auswahl1, "CHF", "USD","EUR", "TRY", "NOK", "COP")
 dropdown.pack()
 
@@ -65,7 +71,6 @@ label.pack()
 
 kursvon = wechselkurse[auswahl1.get()]
 
-label = tk.Label(root, text=f"Kurs zu CHF: {kursvon}")
 label.pack()
 
 kurszu = wechselkurse[auswahl2.get()]
