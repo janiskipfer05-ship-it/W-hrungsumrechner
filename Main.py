@@ -1,5 +1,5 @@
 import tkinter as tk
-#import Numpy as np
+# import Numpy as np
 
 wechselkurse = {
     "CHF": 1.00,
@@ -10,104 +10,109 @@ wechselkurse = {
     "COP": 4726.54
 }
 
-betrag = 0    
-
-root = tk.Tk()        # Hauptfenster erstellen
-root.title("Wärungsumrechner")
+root = tk.Tk()
+root.title("Währungsumrechner")
 
 
 # -----------------------------------------------------------------------------
-#   Von Wärung GUI
+#   Von Währung GUI
 #
-label = tk.Label(root, text="Von Währung")
-label.pack()
 
+label_von = tk.Label(root, text="Von Währung")
+label_von.pack()
 
 auswahl1 = tk.StringVar()
-auswahl1.set("USD")  #Strtwährung festlegen
+auswahl1.set("USD")
 
-def update_kurs(*args):
-    kurs = wechselkurse[auswahl1.get()]
-    label.config(text=f"Kurs: {kurs}")
-
-auswahl1.trace_add("write", update_kurs)
-
-dropdown = tk.OptionMenu(root, auswahl1, "CHF", "USD","EUR", "TRY", "NOK", "COP")
-dropdown.pack()
+dropdown1 = tk.OptionMenu(
+    root,
+    auswahl1,
+    "CHF", "USD", "EUR", "TRY", "NOK", "COP"
+)
+dropdown1.pack()
 
 
 # -----------------------------------------------------------------------------
-#   ZU Wärung GUI
+#   Zu Währung GUI
 #
-label = tk.Label(root, text="Zu Währung")
-label.pack()
 
+label_zu = tk.Label(root, text="Zu Währung")
+label_zu.pack()
 
 auswahl2 = tk.StringVar()
-auswahl2.set("CHF")  #Strtwährung festlegen
+auswahl2.set("CHF")
 
-dropdown = tk.OptionMenu(root, auswahl2, "CHF", "USD","EUR", "TRY", "NOK", "COP")
-dropdown.pack()
+dropdown2 = tk.OptionMenu(
+    root,
+    auswahl2,
+    "CHF", "USD", "EUR", "TRY", "NOK", "COP"
+)
+dropdown2.pack()
 
 
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #   Eingabefeld
 #
 
-label = tk.Label(root, text="Betrag")
-label.pack()
+label_betrag = tk.Label(root, text="Betrag")
+label_betrag.pack()
 
 eingabe = tk.Entry(root)
-eingabe.insert(0,"123")
+eingabe.insert(0, "123")
 eingabe.pack()
 
 
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #   Kurs anzeigen
 #
 
-label = tk.Label(root, text="")
-label.pack()
-
-kursvon = wechselkurse[auswahl1.get()]
-
-label.pack()
-
-kurszu = wechselkurse[auswahl2.get()]
-
-label = tk.Label(root, text=f"Kurs zu CHF: {kurszu} ")
-label.pack()
+kurs_label = tk.Label(root, text="")
+kurs_label.pack()
 
 
-#------------------------------------------------------------------------------
+def update_kurs(*args):
+
+    kursvon = wechselkurse[auswahl1.get()]
+    kurszu = wechselkurse[auswahl2.get()]
+
+    kurs_label.config(
+        text=f"{auswahl1.get()}: {kursvon}   |   {auswahl2.get()}: {kurszu}"
+    )
+
+
+auswahl1.trace_add("write", update_kurs)
+auswahl2.trace_add("write", update_kurs)
+
+update_kurs()
+
+
+# -----------------------------------------------------------------------------
+#   Ergebniss anzeigen
+#
+
+ergebnis_label = tk.Label(root, text="Ergebniss")
+ergebnis_label.pack()
+
+
+# -----------------------------------------------------------------------------
 #   Umrechnen
 #
 
 def klick1():
-    # --- Was Passiert wen gedrückt---
-    
+
     betrag = float(eingabe.get())
-    basevon = wechselkurse[auswahl1.get()]  
+
+    basevon = wechselkurse[auswahl1.get()]
     basezu = wechselkurse[auswahl2.get()]
-    
+
     inCHF = betrag / basevon
     ergebniss = inCHF * basezu
-    label.config(text=ergebniss)
-    return
 
-#------------------------------------------------------------------------------
-#   Ergebins anzeigen
-#
+    ergebnis_label.config(text=ergebniss)
+
 
 button1 = tk.Button(root, text="Umrechnen", command=klick1)
 button1.pack()
 
 
-label = tk.Label(root, text="Ergebins")
-label.pack()
-
-
-
-root.mainloop()       # Fenster anzeigen
-
-
+root.mainloop()
