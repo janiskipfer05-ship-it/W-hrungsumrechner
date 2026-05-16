@@ -49,6 +49,16 @@ dropdown2 = tk.OptionMenu(
 )
 dropdown2.pack()
 
+# -----------------------------------------------------------------------------
+#   Fehlererkennung für die Währungen
+#
+
+if (auswahl1.get() == auswahl2.get()):
+    fehler = True
+    grund = "Identische Wärungen"
+    
+else :
+    fehler = False
 
 # -----------------------------------------------------------------------------
 #   Eingabefeld
@@ -63,6 +73,19 @@ eingabe.pack()
 
 
 # -----------------------------------------------------------------------------
+#   Fehlererkennung für Negativer Betrag
+#
+# grund = " "
+betrag = float(eingabe.get())
+
+if betrag < 0:
+    fehler = True
+    grund = "Negative Zahl"
+
+else:
+    fehler = False
+
+# -----------------------------------------------------------------------------
 #   Kurs anzeigen
 #
 
@@ -75,8 +98,7 @@ def update_kurs(*args):
     kursvon = wechselkurse[auswahl1.get()]
     kurszu = wechselkurse[auswahl2.get()]
 
-    kurs_label.config(
-        text=f"{auswahl1.get()}: {kursvon}   |   {auswahl2.get()}: {kurszu}"
+    kurs_label.config(text=f"{auswahl1.get()}: {kursvon}   |   {auswahl2.get()}: {kurszu}"
     )
 
 
@@ -114,5 +136,36 @@ def klick1():
 button1 = tk.Button(root, text="Umrechnen", command=klick1)
 button1.pack()
 
+# -----------------------------------------------------------------------------
+#   Fehler anzeigen
+#
+
+Fehler_label = tk.Label(root, text="")
+Fehler_label.pack()
+
+def fehler_pruefen(*args):
+
+    try:
+        betrag = float(eingabe.get())
+    except:
+        Fehler_label.config(text="Fehler: Ungültige Eingabe")
+        return
+
+    if auswahl1.get() == auswahl2.get():
+        Fehler_label.config(text="Fehler: Identische Währungen")
+
+    elif betrag < 0:
+        Fehler_label.config(text="Fehler: Negative Zahl")
+
+    else:
+        Fehler_label.config(text="")
+        
+auswahl1.trace_add("write", fehler_pruefen)
+auswahl2.trace_add("write", fehler_pruefen)
+
+eingabe.bind("<KeyRelease>", fehler_pruefen)
+
+fehler_pruefen()
+        
 
 root.mainloop()
